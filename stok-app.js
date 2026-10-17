@@ -1,75 +1,33 @@
-new Vue({
-    el: '#app',
-    data: {
-        judulHalaman: 'Monitoring Stok Bahan Ajar UT',
-        cariKeyword: '',
-        pilihJenis: '',
-        daftarBahanAjar: daftarBahanAjar,
-        formBaru: {
-            kodeBarang: '',
-            namaBarang: '',
-            kategori: 'MK Wajib',
-            upbjj: 'Jakarta',
-            lokasi: 'R1-A1',
-            harga: 50000,
-            stok: '',
-            safety: 10,
-            catatan: 'Baru'
-        }
-    },
-    computed: {
-        filterBahanAjar() {
-            return this.daftarBahanAjar.filter(item => {
-                const searchKey = this.cariKeyword ? this.cariKeyword.toLowerCase() : '';
-                const matchKeyword = (item.judul && item.judul.toLowerCase().includes(searchKey)) ||
-                                     (item.kode && item.kode.toLowerCase().includes(searchKey));
-                const matchJenis = !this.pilihJenis || item.kategori === this.pilihJenis;
-                return matchKeyword && matchJenis;
-            });
-        },
-        totalJenisBuku() {
-            return this.daftarBahanAjar.length;
-        },
-        totalJumlahStok() {
-            return this.daftarBahanAjar.reduce((total, item) => total + Number(item.qty || item.stok || 0), 0);
-        }
-    },
-    methods: {
-        tambahDataBaru() {
-            let kodeInput = this.formBaru.kodeBarang ? this.formBaru.kodeBarang.trim() : '';
-            let namaInput = this.formBaru.namaBarang ? this.formBaru.namaBarang.trim() : '';
-            let jumlahTambah = Number(this.formBaru.stok);
+// Logika Pengelolaan Stok Bahan Ajar (stok-app.js)
 
-            if (!kodeInput || !namaInput || isNaN(jumlahTambah) || jumlahTambah <= 0) {
-                alert('Mohon masukkan Kode, Judul, dan Jumlah Stok yang valid!');
-                return;
-            }
+document.addEventListener("DOMContentLoaded", function() {
+    const tabelStokBody = document.getElementById("tabelStokBody");
 
-            // Menambahkan data baru ke array daftarBahanAjar
-            this.daftarBahanAjar.push({
-                kode: kodeInput,
-                judul: namaInput,
-                kategori: this.formBaru.kategori,
-                upbjj: this.formBaru.upbjj,
-                lokasiRak: this.formBaru.lokasi,
-                harga: Number(this.formBaru.harga),
-                qty: jumlahTambah,
-                safety: Number(this.formBaru.safety),
-                status: jumlahTambah <= Number(this.formBaru.safety) ? 'Stok menipis' : 'Aman',
-                catatan: this.formBaru.catatan
-            });
+    // Pastikan elemen tabel stok ada di halaman dan datanya tersedia
+    if (tabelStokBody && typeof dbStokBahanAjar !== 'undefined') {
+        // Kosongkan dulu isi tabel
+        tabelStokBody.innerHTML = "";
 
-            alert(`Sukses! Bahan ajar "${namaInput}" berhasil ditambahkan.`);
+        // Looping data stok dari database (data.js)
+        dbStokBahanAjar.forEach((item, index) => {
+            const row = document.createElement("tr");
+            
+            // Tentukan gambar cover default atau dari item
+            let gambarCover = item.cover || "https://i.postimg.cc/tsFBsjn2/cover1-jpg.jpg";
+            if (index === 1) gambarCover = "https://i.postimg.cc/Mn19nSfP/cover2-jpg.webp";
+            if (index === 2) gambarCover = "https://i.postimg.cc/NKRdKc2x/cover3-jpg.jpg";
 
-            // Reset form
-            this.formBaru.kodeBarang = '';
-            this.formBaru.namaBarang = '';
-            this.formBaru.stok = '';
-        },
-        resetForm() {
-            this.formBaru.kodeBarang = '';
-            this.formBaru.namaBarang = '';
-            this.formBaru.stok = '';
-        }
+            row.innerHTML = `
+                <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"><img src="${gambarCover}" alt="Cover" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">${item.kodeLokasi || 'PKU-01-0' + (index + 1)}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">${item.kodeBarang}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">${item.namaBarang}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">${item.jenis || 'BMP'}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">${item.edisi || '1'}</td>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>${item.stok}</strong></td>
+            `;
+            
+            tabelStokBody.appendChild(row);
+        });
     }
 });
