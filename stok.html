@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">          
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Stok Bahan Ajar - SITTA UT</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Informasi Stok Bahan Ajar</h1>
+        <nav>
+            <a href="dashboard.html">Home</a>
+            <a href="stok.html" class="active">Informasi Bahan Ajar</a>
+            <a href="tracking.html">Tracking Pengiriman</a>
+            <a href="index.html" style="color: #ffcc00;">Logout</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <!-- Form Tambah Data Bahan Ajar -->
+<div class="card mb-4 p-3 bg-white shadow-sm">
+    <h5 class="text-secondary mb-3">+ Tambah Data Bahan Ajar Baru</h5>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <input type="text" class="form-control" v-model="formBaru.kodeBarang" placeholder="Kode Barang (Cth: STSI4209)">
+        </div>
+        <div class="col-md-4">
+            <input type="text" class="form-control" v-model="formBaru.namaBarang" placeholder="Nama Barang / BMP">
+        </div>
+        <div class="col-md-2">
+            <select class="form-select" v-model="formBaru.jenisBarang">
+                <option value="BMP">BMP</option>
+                <option value="Non-BMP">Non-BMP</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" class="form-control" v-model="formBaru.stok" placeholder="Jumlah Stok">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-success w-100" @click="tambahDataBaru">Simpan</button>
+        </div>
+    </div>
+</div>
+            <h2>Daftar Stok Buku BMP</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cover</th>
+                        <th>Kode Lokasi</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Jenis</th>
+                        <th>Edisi</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://i.postimg.cc/tsFBsjn2/cover1-jpg.jpg" alt="Cover 1" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                        <td>PKU-01-01</td>
+                        <td>STSI4209</td>
+                        <td>BMP Kepemimpinan</td>
+                        <td>BMP</td>
+                        <td>1</td>
+                        <td><strong>150</strong></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.postimg.cc/Mn19nSfP/cover2-jpg.webp" alt="Cover 2" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                        <td>PKU-01-02</td>
+                        <td>STSI4310</td>
+                        <td>BMP Mikrobiologi</td>
+                        <td>BMP</td>
+                        <td>2</td>
+                        <td><strong>85</strong></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.postimg.cc/NKRdKc2x/cover3-jpg.jpg" alt="Cover 3" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                        <td>PKU-02-01</td>
+                        <td>EKMA4116</td>
+                        <td>BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini</td>
+                        <td>BMP</td>
+                        <td>3</td>
+                        <td><strong>120</strong></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.postimg.cc/SncgnhY1/cover4-jpg.jpg" alt="Cover 4" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                        <td>PKU-02-02</td>
+                        <td>ISIP4211</td>
+                        <td>BMP Pengantar Ilmu Komunikasi</td>
+                        <td>BMP</td>
+                        <td>1</td>
+                        <td><strong>95</strong></td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://i.postimg.cc/k2WT2mRZ/cover5-jpg.jpg" alt="Cover 5" style="width: 50px; height: 70px; object-fit: cover; border-radius: 4px;"></td>
+                        <td>PKU-02-03</td>
+                        <td>EKMA4115</td>
+                        <td>BMP Manajemen Keuangan</td>
+                        <td>BMP</td>
+                        <td>1</td>
+                        <td><strong>110</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Universitas Terbuka</p>
+    </footer>
+<!-- Memuat file data dummynya dari luar -->
+    <script src="data.js"></script>
+    
+    <!-- Memuat Vue.js versi 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    
+    <!-- Memuat file logika Vue yang ada di dalam folder JS -->
+    <script src="js/dataBahanAjar.js"></script>
+<script src="js/stok-app.js"></script>
+</body>
+</html>
