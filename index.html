@@ -6,44 +6,48 @@
     <title>Login - SITTA Universitas Terbuka</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f6f9;">
 
-    <div class="card" style="width: 380px;">
-        <h2 style="text-align: center;">SITTA UT</h2>
-        <p style="text-align: center; margin-bottom: 20px; color: #666;">Sistem Informasi Bahan Ajar</p>
+    <div class="card" style="width: 380px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        <h2 style="text-align: center; color: #003366; margin-bottom: 5px;">SITTA UT</h2>
+        <p style="text-align: center; margin-bottom: 25px; color: #666; font-size: 0.9rem;">Sistem Informasi Bahan Ajar</p>
         
         <form id="formLogin">
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Contoh: admin@ut.ac.id" required>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="email" style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;">Email:</label>
+                <input type="email" id="email" placeholder="Contoh: admin@ut.ac.id" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
             </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Masukkan password" required>
+            
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem;">Password:</label>
+                <input type="password" id="password" placeholder="Masukkan password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
             </div>
-            <button type="submit" style="width: 100%;">Login</button>
+            
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #ffcc00; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; color: #333;">Login</button>
         </form>
 
         <div id="alertBox" class="alert hidden"></div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.9rem;">
-            <a href="#" id="btnLupa" style="color: #003366;">Lupa Password?</a>
-            <a href="#" id="btnDaftar" style="color: #003366;">Belum punya akun?</a>
+        <div style="display: flex; justify-content: space-between; margin-top: 15px; font-size: 0.85rem;">
+            <a href="#" id="btnLupa" style="color: #003366; text-decoration: none;">Lupa Password?</a>
+            <a href="#" id="btnDaftar" style="color: #003366; text-decoration: none;">Belum punya akun?</a>
         </div>
     </div>
 
     <!-- Modal Pop-up -->
-    <div id="modalBox" class="modal">
+    <div id="modalBox" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close-btn" id="closeModal">&times;</span>
             <h3 id="modalTitle" style="color: #003366; margin-bottom: 15px;">Informasi</h3>
             <p id="modalText">Isi pesan modal...</p>
         </div>
     </div>
-<script src="js/data.js"></script>
-<script src="js/databahanajar.js"></script>
-<script src="js/script.js"></script>
-<script src="js/stok-app.js"></script>
-<script src="js/tracking-app.js"></script>
+
+    <!-- Pemanggilan File JavaScript Pendukung -->
+    <script src="js/data.js"></script>
+    <script src="js/databahanajar.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/stok-app.js"></script>
+    <script src="js/tracking-app.js"></script>
 </body>
 </html>
