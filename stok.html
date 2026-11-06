@@ -22,9 +22,9 @@
     <div id="stokApp" style="max-width: 1050px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h2 style="color: #003366; margin-top: 0;">Manajemen Stok & Daftar Mata Kuliah BMP</h2>
         
-        <!-- Input Pencarian (v-model) -->
+        <!-- Input Pencarian (v-model reaktif) -->
         <div style="margin-bottom: 20px;">
-            <input type="text" v-model="cariKode" placeholder="Cari berdasarkan lokasi, kode BMP, atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
+            <input type="text" v-model="cariKode" placeholder="Ketik kode BMP (contoh: ISIP4211) atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
         </div>
 
         <!-- Tabel Data Stok Bahan Ajar -->
@@ -60,18 +60,18 @@
     <!-- Pustaka Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     
-    <!-- Data Base Langsung Dimasukkan di Sini Agar Tidak Gagal Muat karena Cache -->
+    <!-- Database 5 List Mata Kuliah Sesuai Permintaan -->
     <script>
         const daftarBahanAjar = [
-            { lokasi: "PKU-01-01", kode: "STSI4209", judul: "BMP Kepemimpinan", kategori: "BMP", qty: 1, status: "Aman", safety: 0, gambar: "cover1.jpg.jpg" },
-            { lokasi: "PKU-01-02", kode: "STSI4310", judul: "BMP Mikrobiologi", kategori: "BMP", qty: 2, status: "Aman", safety: 0, gambar: "cover2.jpg.jpg" },
-            { lokasi: "PKU-02-01", kode: "EKMA4116", judul: "BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini", kategori: "BMP", qty: 3, status: "Aman", safety: 0, gambar: "cover3.jpg.jpeg" },
-            { lokasi: "PKU-02-02", kode: "ISIP4211", judul: "BMP Pengantar Ilmu Komunikasi", kategori: "BMP", qty: 1, status: "Aman", safety: 0, gambar: "cover4.jpg.jpg" },
-            { lokasi: "PKU-02-03", kode: "EKMA4115", judul: "BMP Manajemen Keuangan", kategori: "BMP", qty: 1, status: "Aman", safety: 0, gambar: "cover5.jpg.jpg" }
+            { lokasi: "PKU-01-01", kode: "STSI4209", judul: "BMP Kepemimpinan", kategori: "BMP", qty: 1, gambar: "cover1.jpg_2.jpg" },
+            { lokasi: "PKU-01-02", kode: "STSI4310", judul: "BMP Mikrobiologi", kategori: "BMP", qty: 2, gambar: "cover2.jpg_2.jpg" },
+            { lokasi: "PKU-02-01", kode: "EKMA4116", judul: "BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini", kategori: "BMP", qty: 3, gambar: "cover3.jpg_2.jpeg" },
+            { lokasi: "PKU-02-02", kode: "ISIP4211", judul: "BMP Pengantar Ilmu Komunikasi", kategori: "BMP", qty: 1, gambar: "cover4.jpg_2.jpg" },
+            { lokasi: "PKU-02-03", kode: "EKMA4115", judul: "BMP Manajemen Keuangan", kategori: "BMP", qty: 1, gambar: "cover5.jpg_2.jpg" }
         ];
     </script>
 
-    <!-- Script Logika Vue -->
+    <!-- Script Logika Vue Filtering Pencarian -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             new Vue({
