@@ -3,11 +3,10 @@ document.addEventListener("DOMContentLoaded", function() {
         el: '#stokApp',
         data: {
             cariKode: '',
-            // Menghubungkan langsung ke variabel daftarBahanAjar dari databahanajar.js
+            // Mengambil langsung variabel daftarBahanAjar dari databahanajar.js
             daftarStok: typeof daftarBahanAjar !== 'undefined' ? daftarBahanAjar : []
         },
         computed: {
-            // Logika filtering yang aman dan tahan banting untuk kode maupun judul
             filteredStok() {
                 if (!this.cariKode) {
                     return this.daftarStok;
