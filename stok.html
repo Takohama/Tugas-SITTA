@@ -22,7 +22,7 @@
     <div id="stokApp" style="max-width: 1050px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h2 style="color: #003366; margin-top: 0;">Manajemen Stok & Daftar Mata Kuliah BMP</h2>
         
-        <!-- Input Pencarian -->
+        <!-- Input Pencarian (v-model) -->
         <div style="margin-bottom: 20px;">
             <input type="text" v-model="cariKode" placeholder="Cari berdasarkan lokasi, kode BMP, atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
         </div>
@@ -42,7 +42,7 @@
             <tbody>
                 <tr v-for="item in filteredStok" :key="item.kode">
                     <td style="text-align: center;">
-                        <img :src="item.gambar" alt="Cover Buku" style="width: 40px; height: 55px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;">
+                        <img :src="item.gambar" alt="Cover Buku" style="width: 40px; height: 55px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;" @error="$event.target.src='https://via.placeholder.com/40x55?text=BMP'">
                     </td>
                     <td><b>{{ item.lokasi }}</b></td>
                     <td>{{ item.kode }}</td>
@@ -59,9 +59,10 @@
 
     <!-- Pustaka Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    
-    <!-- Script Logika Langsung Tanpa File Eksternal yang Sering Nyangkut di Cache -->
+    <!-- Data Dummy Bahan Ajar -->
     <script src="js/databahanajar.js"></script>
+    
+    <!-- Script Logika Vue Langsung di Sini Agar Tidak Gagal Muat -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             new Vue({
@@ -80,7 +81,8 @@
                             const lokasi = item.lokasi ? item.lokasi.toLowerCase() : '';
                             const kode = item.kode ? item.kode.toLowerCase() : '';
                             const judul = item.judul ? item.judul.toLowerCase() : '';
-                            return lokasi.includes(keyword) || kode.includes(keyword) || judul.includes(keyword);
+                            const kategori = item.kategori ? item.kategori.toLowerCase() : '';
+                            return lokasi.includes(keyword) || kode.includes(keyword) || judul.includes(keyword) || kategori.includes(keyword);
                         });
                     }
                 }
