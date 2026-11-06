@@ -62,7 +62,7 @@
     <!-- Data Dummy Bahan Ajar -->
     <script src="js/databahanajar.js"></script>
     
-    <!-- Script Logika Vue Langsung di Sini Agar Tidak Gagal Muat -->
+    <!-- Script Logika Vue Langsung -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             new Vue({
@@ -73,15 +73,17 @@
                 },
                 computed: {
                     filteredStok() {
-                        if (!this.cariKode) {
+                        // Jika kolom pencarian kosong, tampilkan semua list dengan aman
+                        if (!this.cariKode || this.cariKode.trim() === "") {
                             return this.daftarStok;
                         }
                         const keyword = this.cariKode.toLowerCase().trim();
                         return this.daftarStok.filter(item => {
-                            const lokasi = item.lokasi ? item.lokasi.toLowerCase() : '';
-                            const kode = item.kode ? item.kode.toLowerCase() : '';
-                            const judul = item.judul ? item.judul.toLowerCase() : '';
-                            const kategori = item.kategori ? item.kategori.toLowerCase() : '';
+                            const lokasi = item.lokasi ? String(item.lokasi).toLowerCase() : '';
+                            const kode = item.kode ? String(item.kode).toLowerCase() : '';
+                            const judul = item.judul ? String(item.judul).toLowerCase() : '';
+                            const kategori = item.kategori ? String(item.kategori).toLowerCase() : '';
+                            
                             return lokasi.includes(keyword) || kode.includes(keyword) || judul.includes(keyword) || kategori.includes(keyword);
                         });
                     }
