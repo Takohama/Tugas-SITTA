@@ -19,40 +19,39 @@
         </nav>
     </header>
 
-    <div id="stokApp" style="max-width: 1000px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <div id="stokApp" style="max-width: 1050px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h2 style="color: #003366; margin-top: 0;">Manajemen Stok & Daftar Mata Kuliah BMP</h2>
         
-        <!-- Input Pencarian (Directive v-model) -->
+        <!-- Input Pencarian -->
         <div style="margin-bottom: 20px;">
-            <input type="text" v-model="cariKode" placeholder="Cari berdasarkan kode BMP atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
+            <input type="text" v-model="cariKode" placeholder="Cari berdasarkan lokasi, kode BMP, atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
         </div>
 
         <!-- Tabel Data Stok Bahan Ajar -->
         <table border="1" cellpadding="12" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left; border-color: #ddd;">
             <thead>
                 <tr style="background-color: #003366; color: white;">
+                    <th style="width: 70px; text-align: center;">Cover</th>
+                    <th>Lokasi Rak</th>
                     <th>Kode BMP</th>
                     <th>Judul Mata Kuliah / BMP</th>
                     <th>Kategori</th>
                     <th>Stok (Qty)</th>
-                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Perulangan v-for untuk menampilkan data mata kuliah -->
                 <tr v-for="item in filteredStok" :key="item.kode">
-                    <td><b> item.kode </b></td>
-                    <td> item.judul </td>
-                    <td> item.kategori </td>
-                    <td> item.qty </td>
-                    <td>
-                        <!-- Conditional v-if / v-else untuk status stok -->
-                        <span v-if="item.qty > 10" style="color: green; font-weight: bold;">Aman</span>
-                        <span v-else style="color: red; font-weight: bold;">Menipis</span>
+                    <td style="text-align: center;">
+                        <img :src="item.gambar" alt="Cover Buku" style="width: 40px; height: 55px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;">
                     </td>
+                    <td><b>{{ item.lokasi }}</b></td>
+                    <td>{{ item.kode }}</td>
+                    <td>{{ item.judul }}</td>
+                    <td>{{ item.kategori }}</td>
+                    <td>{{ item.qty }}</td>
                 </tr>
                 <tr v-if="filteredStok.length === 0">
-                    <td colspan="5" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
+                    <td colspan="6" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
                 </tr>
             </tbody>
         </table>
