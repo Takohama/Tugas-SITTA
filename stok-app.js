@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
         el: '#stokApp',
         data: {
             cariKode: '',
-            // Mengambil langsung variabel daftarBahanAjar dari databahanajar.js
             daftarStok: typeof daftarBahanAjar !== 'undefined' ? daftarBahanAjar : []
         },
         computed: {
