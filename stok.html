@@ -57,9 +57,35 @@
         </table>
     </div>
 
-    <!-- Pustaka Vue 2 dan File Logika -->
+    <!-- Pustaka Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+    <!-- Script Logika Langsung Tanpa File Eksternal yang Sering Nyangkut di Cache -->
     <script src="js/databahanajar.js"></script>
-    <script src="js/stok-app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            new Vue({
+                el: '#stokApp',
+                data: {
+                    cariKode: '',
+                    daftarStok: typeof daftarBahanAjar !== 'undefined' ? daftarBahanAjar : []
+                },
+                computed: {
+                    filteredStok() {
+                        if (!this.cariKode) {
+                            return this.daftarStok;
+                        }
+                        const keyword = this.cariKode.toLowerCase().trim();
+                        return this.daftarStok.filter(item => {
+                            const lokasi = item.lokasi ? item.lokasi.toLowerCase() : '';
+                            const kode = item.kode ? item.kode.toLowerCase() : '';
+                            const judul = item.judul ? item.judul.toLowerCase() : '';
+                            return lokasi.includes(keyword) || kode.includes(keyword) || judul.includes(keyword);
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
