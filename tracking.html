@@ -3,49 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracking Bahan Ajar - SITTA Universitas Terbuka</title>
+    <title>Tracking Delivery Order - SITTA</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9;">
-
-    <!-- Sidebar / Navigasi Atas -->
-    <header style="background-color: #003366; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="margin: 0; font-size: 1.2rem;">SITTA UT - Tracking Pengiriman</h2>
-        <nav>
-            <a href="dashboard.html" style="color: #ffcc00; text-decoration: none; margin-right: 20px;">Dashboard</a>
-            <a href="stok.html" style="color: #ffcc00; text-decoration: none; margin-right: 20px;">Stok Bahan Ajar</a>
-            <a href="tracking.html" style="color: white; text-decoration: none; margin-right: 20px; font-weight: bold;">Tracking</a>
-            <a href="index.html" id="btnLogout" style="color: #ff4d4d; text-decoration: none; font-weight: bold;">Logout</a>
-        </nav>
-    </header>
-
-    <!-- Konten Utama Tracking -->
-    <main style="padding: 30px; max-width: 1200px; margin: 0 auto;">
-        <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px;">
-            <h3 style="color: #003366; margin-top: 0;">Lacak Status Pengiriman Bahan Ajar</h3>
-            <p style="color: #555;">Masukkan nomor resi atau pilih NIM mahasiswa untuk memantau posisi pengiriman modul UT.</p>
-            
-            <!-- Form Pencarian Tracking -->
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <input type="text" id="inputResi" placeholder="Masukkan Nomor Resi / NIM..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                <button id="btnCekTracking" style="padding: 10px 20px; background-color: #003366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Lacak</button>
-            </div>
+<body>
+    <div id="trackingApp" style="max-width: 800px; margin: 30px auto; padding: 20px; font-family: Arial, sans-serif;">
+        <a href="index.html" style="color: #003366; text-decoration: none; font-weight: bold;">&larr; Kembali ke Beranda</a>
+        <h2 style="color: #003366; margin-top: 15px;">Tracking Delivery Order (DO)</h2>
+        
+        <div style="margin-bottom: 20px;">
+            <input type="text" v-model="nomorDO" placeholder="Masukkan Nomor DO (Contoh: DO-001)..." style="width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <button @click="cariTracking" style="padding: 10px 20px; background: #003366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Cek Status</button>
         </div>
 
-        <!-- Hasil Tracking -->
-        <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <h4 style="color: #003366; margin-top: 0;">Riwayat & Status Pengiriman</h4>
-            <div id="hasilTracking">
-                <p style="color: #666; font-style: italic;">Silakan lakukan pencarian resi di atas untuk melihat status perjalanan bahan ajar.</p>
-            </div>
+        <!-- Conditional v-if untuk menampilkan hasil tracking -->
+        <div v-if="hasilPencarian" style="background: #f4f6f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+            <p><strong>Nomor DO:</strong> {{ hasilPencarian.do }}</p>
+            <p><strong>Penerima:</strong> {{ hasilPencarian.nama }} (NIM: {{ hasilPencarian.nim }})</p>
+            <p><strong>Ekspedisi:</strong> {{ hasilPencarian.ekspedisi }}</p>
+            <p><strong>Status Pengiriman:</strong> <span style="color: #0026AD; font-weight: bold;">{{ hasilPencarian.status }}</span></p>
         </div>
-    </main>
+        <div v-else-if="pencarianDilakukan" style="color: red;">
+            Data Delivery Order tidak ditemukan.
+        </div>
+    </div>
 
-    <!-- Pemanggilan File JavaScript Pendukung -->
-    <script src="js/data.js"></script>
+    <!-- Panggil Vue 2 dan File Logika Tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="js/databahanajar.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/stok-app.js"></script>
     <script src="js/tracking-app.js"></script>
 </body>
 </html>
