@@ -41,10 +41,10 @@
             <tbody>
                 <!-- Perulangan v-for untuk menampilkan data mata kuliah -->
                 <tr v-for="item in filteredStok" :key="item.kode">
-                    <td><b>{{ item.kode }}</b></td>
-                    <td>{{ item.judul }}</td>
-                    <td>{{ item.kategori }}</td>
-                    <td>{{ item.qty }}</td>
+                    <td><b> item.kode </b></td>
+                    <td> item.judul </td>
+                    <td> item.kategori </td>
+                    <td> item.qty </td>
                     <td>
                         <!-- Conditional v-if / v-else untuk status stok -->
                         <span v-if="item.qty > 10" style="color: green; font-weight: bold;">Aman</span>
