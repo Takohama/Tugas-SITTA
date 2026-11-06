@@ -9,7 +9,6 @@
 <body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9;">
 
     <div id="dashboardApp">
-        <!-- Sidebar / Navigasi Atas -->
         <header style="background-color: #003366; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
             <h2 style="margin: 0; font-size: 1.2rem;">SITTA UT - Dashboard</h2>
             <nav>
@@ -20,17 +19,13 @@
             </nav>
         </header>
 
-        <!-- Konten Utama Dashboard -->
         <main style="padding: 30px; max-width: 1200px; margin: 0 auto;">
             <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px;">
                 <h3 style="color: #003366; margin-top: 0;">Selamat Datang di Sistem Informasi Bahan Ajar (SITTA)</h3>
                 <p style="color: #555;">Login sebagai: <b>{{ currentUser }}</b></p>
-                <p style="color: #555;">Gunakan menu di atas atau pintasan di bawah untuk mengelola data bahan ajar dan memantau status pengiriman.</p>
             </div>
 
-            <!-- Kotak Ringkasan / Cards Navigasi Cepat -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-                
                 <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 5px solid #003366;">
                     <h4 style="margin: 0 0 10px 0; color: #333;">Manajemen Stok BMP</h4>
                     <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Cek ketersediaan bahan ajar dan status stok gudang Universitas Terbuka.</p>
@@ -42,16 +37,13 @@
                     <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Lacak status pengiriman paket bahan ajar ke mahasiswa secara real-time.</p>
                     <a href="tracking.html" style="display: inline-block; padding: 8px 15px; background: #ffcc00; color: #333; text-decoration: none; border-radius: 4px; font-size: 0.9rem; font-weight: bold;">Buka Halaman Tracking</a>
                 </div>
-
             </div>
         </main>
     </div>
 
-    <!-- Panggil Vue 2 dan Logika Sesi Dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Cek proteksi sesi: jika belum login, kembalikan ke index.html
             if (localStorage.getItem("sitta_logged_in") !== "true") {
                 alert("Silakan login terlebih dahulu!");
                 window.location.href = "index.html";
