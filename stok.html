@@ -32,10 +32,10 @@
                     <td>{{ item.kode }}</td>
                     <td>{{ item.judul }}</td>
                     <td>{{ item.kategori }}</td>
-                    <td>{{ item.stok }}</td>
+                    <td>{{ item.qty }}</td>
                     <td>
-                        <!-- Conditional Directive v-if / v-else -->
-                        <span v-if="item.stok > 10" style="color: green; font-weight: bold;">Aman</span>
+                        <!-- Conditional Directive v-if / v-else disesuaikan dengan item.qty -->
+                        <span v-if="item.qty > item.safety" style="color: green; font-weight: bold;">{{ item.status }}</span>
                         <span v-else style="color: red; font-weight: bold;">Menipis</span>
                     </td>
                 </tr>
@@ -43,13 +43,13 @@
         </table>
     </div>
 
-  <!-- 1. Panggil dulu Library Vue 2 -->
-<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-
-<!-- 2. Panggil file database data dummy -->
-<script src="js/databahanajar.js"></script>
-
-<!-- 3. Panggil file logika Vue khusus halaman stok -->
-<script src="js/stok-app.js"></script>
+    <!-- 1. Panggil dulu Library Vue 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+    <!-- 2. Panggil file database data dummy -->
+    <script src="js/databahanajar.js"></script>
+    
+    <!-- 3. Panggil file logika Vue khusus halaman stok -->
+    <script src="js/stok-app.js"></script>
 </body>
 </html>
