@@ -3,18 +3,20 @@ document.addEventListener("DOMContentLoaded", function() {
         el: '#stokApp',
         data: {
             cariKode: '',
-            // Mengambil data dari file databahanajar.js atau array cadangan
-            daftarStok: typeof dbStokBahanAjar !== 'undefined' ? dbStokBahanAjar : [
-                { kode: "EKMA4116", judul: "Pengantar Manajemen", kategori: "Ekonomi", stok: 25 },
-                { kode: "ISIP4210", judul: "Pengantar Sosiologi", kategori: "Sosial", stok: 5 }
-            ]
+            // Menghubungkan langsung ke variabel daftarBahanAjar dari databahanajar.js
+            daftarStok: typeof daftarBahanAjar !== 'undefined' ? daftarBahanAjar : []
         },
         computed: {
-            // Filter pencarian menggunakan Computed Property
+            // Logika filtering yang aman dan tahan banting untuk kode maupun judul
             filteredStok() {
+                if (!this.cariKode) {
+                    return this.daftarStok;
+                }
+                const keyword = this.cariKode.toLowerCase().trim();
                 return this.daftarStok.filter(item => {
-                    return item.judul.toLowerCase().includes(this.cariKode.toLowerCase()) ||
-                           item.kode.toLowerCase().includes(this.cariKode.toLowerCase());
+                    const kode = item.kode ? item.kode.toLowerCase() : '';
+                    const judul = item.judul ? item.judul.toLowerCase() : '';
+                    return kode.includes(keyword) || judul.includes(keyword);
                 });
             }
         }
