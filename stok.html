@@ -6,50 +6,61 @@
     <title>Informasi Stok Bahan Ajar - SITTA</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div id="stokApp" style="max-width: 900px; margin: 30px auto; padding: 20px; font-family: Arial, sans-serif;">
-        <a href="index.html" style="color: #003366; text-decoration: none; font-weight: bold;">&larr; Kembali ke Beranda</a>
-        <h2 style="color: #003366; margin-top: 15px;">Manajemen Stok Bahan Ajar</h2>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9;">
+
+    <!-- Navigasi Atas -->
+    <header style="background-color: #003366; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0; font-size: 1.2rem;">SITTA UT - Stok Bahan Ajar</h2>
+        <nav>
+            <a href="dashboard.html" style="color: white; text-decoration: none; margin-right: 20px;">Dashboard</a>
+            <a href="stok.html" style="color: #ffcc00; text-decoration: none; margin-right: 20px; font-weight: bold;">Stok Bahan Ajar</a>
+            <a href="tracking.html" style="color: white; text-decoration: none; margin-right: 20px;">Tracking DO</a>
+            <a href="index.html" style="color: #ff4d4d; text-decoration: none; font-weight: bold;">Keluar</a>
+        </nav>
+    </header>
+
+    <div id="stokApp" style="max-width: 1000px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h2 style="color: #003366; margin-top: 0;">Manajemen Stok & Daftar Mata Kuliah BMP</h2>
         
         <!-- Input Pencarian (Directive v-model) -->
         <div style="margin-bottom: 20px;">
-            <input type="text" v-model="cariKode" placeholder="Cari berdasarkan kode atau nama BMP..." style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            <input type="text" v-model="cariKode" placeholder="Cari berdasarkan kode BMP atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
         </div>
 
-        <!-- Tabel Data Stok -->
-        <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <!-- Tabel Data Stok Bahan Ajar -->
+        <table border="1" cellpadding="12" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left; border-color: #ddd;">
             <thead>
                 <tr style="background-color: #003366; color: white;">
                     <th>Kode BMP</th>
-                    <th>Judul BMP</th>
+                    <th>Judul Mata Kuliah / BMP</th>
                     <th>Kategori</th>
-                    <th>Stok</th>
+                    <th>Stok (Qty)</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in filteredStok">
-                    <td>{{ item.kode }}</td>
+                <!-- Perulangan v-for untuk menampilkan data mata kuliah -->
+                <tr v-for="item in filteredStok" :key="item.kode">
+                    <td><b>{{ item.kode }}</b></td>
                     <td>{{ item.judul }}</td>
                     <td>{{ item.kategori }}</td>
                     <td>{{ item.qty }}</td>
                     <td>
-                        <!-- Conditional Directive v-if / v-else disesuaikan dengan item.qty -->
-                        <span v-if="item.qty > item.safety" style="color: green; font-weight: bold;">{{ item.status }}</span>
+                        <!-- Conditional v-if / v-else untuk status stok -->
+                        <span v-if="item.qty > 10" style="color: green; font-weight: bold;">Aman</span>
                         <span v-else style="color: red; font-weight: bold;">Menipis</span>
                     </td>
+                </tr>
+                <tr v-if="filteredStok.length === 0">
+                    <td colspan="5" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- 1. Panggil dulu Library Vue 2 -->
+    <!-- Pustaka Vue 2 dan File Logika -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    
-    <!-- 2. Panggil file database data dummy -->
     <script src="js/databahanajar.js"></script>
-    
-    <!-- 3. Panggil file logika Vue khusus halaman stok -->
     <script src="js/stok-app.js"></script>
 </body>
 </html>
