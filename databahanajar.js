@@ -1,7 +1,7 @@
 const daftarBahanAjar = [
     {
         lokasi: "PKU-01-01",
-        kode: "ADPU4334",
+        kode: "STSI4209",
         judul: "BMP Kepemimpinan",
         kategori: "BMP",
         qty: 1,
@@ -11,7 +11,7 @@ const daftarBahanAjar = [
     },
     {
         lokasi: "PKU-01-02",
-        kode: "BIOL4223",
+        kode: "STSI4310",
         judul: "BMP Mikrobiologi",
         kategori: "BMP",
         qty: 2,
@@ -21,7 +21,7 @@ const daftarBahanAjar = [
     },
     {
         lokasi: "PKU-02-01",
-        kode: "PAUD4306",
+        kode: "EKMA4116",
         judul: "BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini",
         kategori: "BMP",
         qty: 3,
@@ -31,7 +31,7 @@ const daftarBahanAjar = [
     },
     {
         lokasi: "PKU-02-02",
-        kode: "SKOM4101",
+        kode: "ISIP4211",
         judul: "BMP Pengantar Ilmu Komunikasi",
         kategori: "BMP",
         qty: 1,
@@ -41,7 +41,7 @@ const daftarBahanAjar = [
     },
     {
         lokasi: "PKU-02-03",
-        kode: "EKMA4213",
+        kode: "EKMA4115",
         judul: "BMP Manajemen Keuangan",
         kategori: "BMP",
         qty: 1,
