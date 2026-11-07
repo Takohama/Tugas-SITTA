@@ -6,31 +6,87 @@
     <title>Tracking Delivery Order - SITTA</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div id="trackingApp" style="max-width: 800px; margin: 30px auto; padding: 20px; font-family: Arial, sans-serif;">
-        <a href="index.html" style="color: #003366; text-decoration: none; font-weight: bold;">&larr; Kembali ke Beranda</a>
-        <h2 style="color: #003366; margin-top: 15px;">Tracking Delivery Order (DO)</h2>
+<body style="margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9;">
+
+    <!-- Navigasi Atas -->
+    <header style="background-color: #003366; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0; font-size: 1.2rem;">SITTA UT - Tracking DO</h2>
+        <nav>
+            <a href="dashboard.html" style="color: white; text-decoration: none; margin-right: 20px;">Dashboard</a>
+            <a href="stok.html" style="color: white; text-decoration: none; margin-right: 20px;">Stok Bahan Ajar</a>
+            <a href="tracking.html" style="color: #ffcc00; text-decoration: none; margin-right: 20px; font-weight: bold;">Tracking DO</a>
+            <a href="index.html" style="color: #ff4d4d; text-decoration: none; font-weight: bold;">Keluar</a>
+        </nav>
+    </header>
+
+    <div id="trackingApp" style="max-width: 800px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <a href="dashboard.html" style="color: #003366; text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 15px;">&larr; Kembali ke Dashboard</a>
+        <h2 style="color: #003366; margin-top: 0;">Tracking Delivery Order (DO) Bahan Ajar</h2>
         
-        <div style="margin-bottom: 20px;">
-            <input type="text" v-model="nomorDO" placeholder="Masukkan Nomor DO (Contoh: DO-001)..." style="width: 70%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <button @click="cariTracking" style="padding: 10px 20px; background: #003366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Cek Status</button>
+        <!-- Input Nomor DO -->
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+            <input type="text" v-model="nomorDO" placeholder="Masukkan Nomor DO (Contoh: DO-001, DO-002, DO-003)..." style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+            <button @click="cariTracking" style="padding: 12px 25px; background: #003366; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1rem;">Cek Status</button>
         </div>
 
-        <!-- Conditional v-if untuk menampilkan hasil tracking -->
-        <div v-if="hasilPencarian" style="background: #f4f6f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
-            <p><strong>Nomor DO:</strong> {{ hasilPencarian.do }}</p>
-            <p><strong>Penerima:</strong> {{ hasilPencarian.nama }} (NIM: {{ hasilPencarian.nim }})</p>
-            <p><strong>Ekspedisi:</strong> {{ hasilPencarian.ekspedisi }}</p>
-            <p><strong>Status Pengiriman:</strong> <span style="color: #0026AD; font-weight: bold;">{{ hasilPencarian.status }}</span></p>
+        <!-- Hasil Pencarian Tracking -->
+        <div v-if="hasilPencarian" style="background: #f9fbfd; border: 1px solid #cce0ff; padding: 20px; border-radius: 6px;">
+            <h3 style="color: #003366; margin-top: 0; border-bottom: 2px solid #003366; padding-bottom: 8px;">Detail Status Pengiriman</h3>
+            <p style="margin: 8px 0;"><b>Nomor DO:</b> {{ hasilPencarian.do }}</p>
+            <p style="margin: 8px 0;"><b>Penerima:</b> {{ hasilPencarian.nama }} (NIM: {{ hasilPencarian.nim }})</p>
+            <p style="margin: 8px 0;"><b>Ekspedisi:</b> {{ hasilPencarian.ekspedisi }}</p>
+            <p style="margin: 8px 0;">
+                <b>Status Pengiriman:</b> 
+                <span :style="{ color: hasilPencarian.warnaStatus, fontWeight: 'bold' }">
+                    {{ hasilPencarian.status }}
+                </span>
+            </p>
         </div>
-        <div v-else-if="pencarianDilakukan" style="color: red;">
-            Data Delivery Order tidak ditemukan.
+
+        <!-- Pesan Jika Data Tidak Ditemukan -->
+        <div v-else-if="sudahDicari" style="background: #fff5f5; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 6px;">
+            Data Delivery Order dengan nomor tersebut tidak ditemukan. Coba gunakan: <b>DO-001</b>, <b>DO-002</b>, atau <b>DO-003</b>.
         </div>
     </div>
 
-    <!-- Panggil Vue 2 dan File Logika Tracking -->
+    <!-- Pustaka Vue 2 dan Logika Tracking -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="js/databahanajar.js"></script>
-    <script src="js/tracking-app.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Proteksi Sesi Login
+            if (localStorage.getItem("sitta_logged_in") !== "true") {
+                alert("Silakan login terlebih dahulu!");
+                window.location.href = "index.html";
+            }
+
+            new Vue({
+                el: '#trackingApp',
+                data: {
+                    nomorDO: '',
+                    hasilPencarian: null,
+                    sudahDicari: false,
+                    // Data dummy untuk mahasiswa A, B, dan C
+                    databaseDO: [
+                        { do: "DO-001", nama: "Annajmus Tsaaqir", nim: "050224845", ekspedisi: "JNE Express", status: "Sedang dalam perjalanan (On Process)", warnaStatus: "#e67e22" },
+                        { do: "DO-002", nama: "Budi Santoso", nim: "050224846", ekspedisi: "POS Indonesia", status: "Paket sudah sampai di tujuan (Delivered)", warnaStatus: "#27ae60" },
+                        { do: "DO-003", nama: "Citra Lestari", nim: "050224847", ekspedisi: "SiCepat Ekspres", status: "Sedang diproses packing di gudang UT", warnaStatus: "#2980b9" }
+                    ]
+                },
+                methods: {
+                    cariTracking() {
+                        this.sudahDicari = true;
+                        const keyword = this.nomorDO.trim().toUpperCase();
+                        const found = this.databaseDO.find(item => item.do.toUpperCase() === keyword);
+                        
+                        if (found) {
+                            this.hasilPencarian = found;
+                        } else {
+                            this.hasilPencarian = null;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
