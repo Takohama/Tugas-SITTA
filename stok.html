@@ -69,11 +69,11 @@
                     <td>{{ item.kategori }}</td>
                     <td>Rp {{ Number(item.harga).toLocaleString('id-ID') }}</td>
                     <td>{{ item.qty }}</td>
-                    <td>
-                        <span :style="{ color: item.qty > 1 ? 'green' : 'red', fontWeight: 'bold' }">
-                            {{ item.qty > 1 ? 'Aman' : 'Menipis' }}
-                        </span>
-                    </td>
+                   <td>
+    <span :style="{ color: item.qty > 1 ? 'green' : 'red', fontWeight: 'bold' }">
+        {{ item.qty > 1 ? 'Aman' : 'Menipis' }}
+    </span>
+</td>
                 </tr>
                 <tr v-if="filteredStok.length === 0">
                     <td colspan="9" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
