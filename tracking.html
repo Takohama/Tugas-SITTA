@@ -45,7 +45,7 @@
 
         <!-- Pesan Jika Data Tidak Ditemukan -->
         <div v-else-if="sudahDicari" style="background: #fff5f5; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 6px;">
-            Data Delivery Order dengan nomor tersebut tidak ditemukan. Coba gunakan: <b>DO-001</b>, <b>DO-002</b>, atau <b>DO-003</b>.
+            Data Delivery Order dengan nomor tersebut tidak ditemukan. Silakan gunakan contoh: <b>DO-001</b>, <b>DO-002</b>, atau <b>DO-003</b>.
         </div>
     </div>
 
@@ -65,7 +65,7 @@
                     nomorDO: '',
                     hasilPencarian: null,
                     sudahDicari: false,
-                    // Data dummy untuk mahasiswa A, B, dan C
+                    // Database ekspedisi untuk mahasiswa A, B, dan C
                     databaseDO: [
                         { do: "DO-001", nama: "Annajmus Tsaaqir", nim: "050224845", ekspedisi: "JNE Express", status: "Sedang dalam perjalanan (On Process)", warnaStatus: "#e67e22" },
                         { do: "DO-002", nama: "Budi Santoso", nim: "050224846", ekspedisi: "POS Indonesia", status: "Paket sudah sampai di tujuan (Delivered)", warnaStatus: "#27ae60" },
