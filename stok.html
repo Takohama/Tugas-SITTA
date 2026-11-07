@@ -19,39 +19,65 @@
         </nav>
     </header>
 
-    <div id="stokApp" style="max-width: 1050px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <div id="stokApp" style="max-width: 1150px; margin: 30px auto; padding: 25px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
         <h2 style="color: #003366; margin-top: 0;">Manajemen Stok & Daftar Mata Kuliah BMP</h2>
         
+        <!-- FITUR TAMBAHAN: Form Input / Tambah Bahan Ajar Baru (Sesuai Gaya Video Tugas) -->
+        <div style="background: #f4f6f9; padding: 20px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #d1d9e0;">
+            <h3 style="color: #003366; margin-top: 0; font-size: 1.1rem;">+ Tambah Bahan Ajar Baru</h3>
+            <form @submit.prevent="tambahDataBahanAjar" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+                <input type="text" v-model="formBaru.lokasi" placeholder="Lokasi Rak (Cth: PKU-01-03)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" v-model="formBaru.upbjj" placeholder="UPBJJ (Cth: Palangka Raya)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" v-model="formBaru.kode" placeholder="Kode BMP (Cth: ADPU4334)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" v-model="formBaru.judul" placeholder="Judul Mata Kuliah / BMP" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" v-model="formBaru.kategori" placeholder="Kategori (Cth: BMP)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="number" v-model.number="formBaru.harga" placeholder="Harga Buku (Rp)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="number" v-model.number="formBaru.qty" placeholder="Jumlah QTY Stok" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="text" v-model="formBaru.gambar" placeholder="Nama File Cover (Cth: cover1.jpg_2.jpg)" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <button type="submit" style="grid-column: 1 / -1; padding: 10px; background: #003366; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">Simpan Data Bahan Ajar</button>
+            </form>
+        </div>
+
         <!-- Input Pencarian (v-model reaktif) -->
         <div style="margin-bottom: 20px;">
             <input type="text" v-model="cariKode" placeholder="Ketik kode BMP (contoh: ISIP4211) atau judul mata kuliah..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 1rem;">
         </div>
 
-        <!-- Tabel Data Stok Bahan Ajar -->
+        <!-- Tabel Data Stok Bahan Ajar (Ditambah Kolom UPBJJ, Harga, dan Status Stok) -->
         <table border="1" cellpadding="12" cellspacing="0" style="width: 100%; border-collapse: collapse; text-align: left; border-color: #ddd;">
             <thead>
                 <tr style="background-color: #003366; color: white;">
-                    <th style="width: 70px; text-align: center;">Cover</th>
+                    <th style="width: 60px; text-align: center;">Cover</th>
                     <th>Lokasi Rak</th>
+                    <th>UPBJJ</th>
                     <th>Kode BMP</th>
                     <th>Judul Mata Kuliah / BMP</th>
                     <th>Kategori</th>
-                    <th>Stok (Qty)</th>
+                    <th>Harga</th>
+                    <th>QTY</th>
+                    <th>Status Stok</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in filteredStok" :key="item.kode">
                     <td style="text-align: center;">
-                        <img :src="item.gambar" alt="Cover Buku" style="width: 40px; height: 55px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;" @error="$event.target.src='https://via.placeholder.com/40x55?text=BMP'">
+                        <img :src="item.gambar" alt="Cover Buku" style="width: 35px; height: 50px; object-fit: cover; border-radius: 3px; border: 1px solid #ccc;" @error="$event.target.src='https://via.placeholder.com/35x50?text=BMP'">
                     </td>
                     <td><b>{{ item.lokasi }}</b></td>
+                    <td>{{ item.upbjj }}</td>
                     <td>{{ item.kode }}</td>
                     <td>{{ item.judul }}</td>
                     <td>{{ item.kategori }}</td>
+                    <td>Rp {{ Number(item.harga).toLocaleString('id-ID') }}</td>
                     <td>{{ item.qty }}</td>
+                    <td>
+                        <span :style="{ color: item.qty > 1 ? 'green' : 'red', fontWeight: 'bold' }">
+                            {{ item.qty > 1 ? 'Aman' : 'Menipis' }}
+                        </span>
+                    </td>
                 </tr>
                 <tr v-if="filteredStok.length === 0">
-                    <td colspan="6" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
+                    <td colspan="9" style="text-align: center; color: #777; padding: 20px;">Data bahan ajar atau mata kuliah tidak ditemukan.</td>
                 </tr>
             </tbody>
         </table>
@@ -60,25 +86,35 @@
     <!-- Pustaka Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     
-    <!-- Database 5 List Mata Kuliah Sesuai Permintaan -->
+    <!-- Database 5 List Mata Kuliah Ditambah UPBJJ, Harga, dan QTY -->
     <script>
         const daftarBahanAjar = [
-            { lokasi: "PKU-01-01", kode: "STSI4209", judul: "BMP Kepemimpinan", kategori: "BMP", qty: 1, gambar: "cover1.jpg_2.jpg" },
-            { lokasi: "PKU-01-02", kode: "STSI4310", judul: "BMP Mikrobiologi", kategori: "BMP", qty: 2, gambar: "cover2.jpg_2.jpg" },
-            { lokasi: "PKU-02-01", kode: "EKMA4116", judul: "BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini", kategori: "BMP", qty: 3, gambar: "cover3.jpg_2.jpeg" },
-            { lokasi: "PKU-02-02", kode: "ISIP4211", judul: "BMP Pengantar Ilmu Komunikasi", kategori: "BMP", qty: 1, gambar: "cover4.jpg_2.jpg" },
-            { lokasi: "PKU-02-03", kode: "EKMA4115", judul: "BMP Manajemen Keuangan", kategori: "BMP", qty: 1, gambar: "cover5.jpg_2.jpg" }
+            { lokasi: "PKU-01-01", upbjj: "UPBJJ-UT Palangka Raya", kode: "STSI4209", judul: "BMP Kepemimpinan", kategori: "BMP", harga: 45000, qty: 1, gambar: "cover1.jpg_2.jpg" },
+            { lokasi: "PKU-01-02", upbjj: "UPBJJ-UT Palangka Raya", kode: "STSI4310", judul: "BMP Mikrobiologi", kategori: "BMP", harga: 55000, qty: 2, gambar: "cover2.jpg_2.jpg" },
+            { lokasi: "PKU-02-01", upbjj: "UPBJJ-UT Bandung", kode: "EKMA4116", judul: "BMP Perkembangan dan Konsep Dasar Pengembangan Anak Usia Dini", kategori: "BMP", harga: 60000, qty: 3, gambar: "cover3.jpg_2.jpeg" },
+            { lokasi: "PKU-02-02", upbjj: "UPBJJ-UT Bandung", kode: "ISIP4211", judul: "BMP Pengantar Ilmu Komunikasi", kategori: "BMP", harga: 50000, qty: 1, gambar: "cover4.jpg_2.jpg" },
+            { lokasi: "PKU-02-03", upbjj: "UPBJJ-UT Jakarta", kode: "EKMA4115", judul: "BMP Manajemen Keuangan", kategori: "BMP", harga: 65000, qty: 1, gambar: "cover5.jpg_2.jpg" }
         ];
     </script>
 
-    <!-- Script Logika Vue Filtering Pencarian -->
+    <!-- Script Logika Vue Filtering & Form Tambah Data -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             new Vue({
                 el: '#stokApp',
                 data: {
                     cariKode: '',
-                    daftarStok: daftarBahanAjar
+                    daftarStok: daftarBahanAjar,
+                    formBaru: {
+                        lokasi: '',
+                        upbjj: '',
+                        kode: '',
+                        judul: '',
+                        kategori: '',
+                        harga: '',
+                        qty: '',
+                        gambar: ''
+                    }
                 },
                 computed: {
                     filteredStok() {
@@ -88,12 +124,32 @@
                         const keyword = this.cariKode.toLowerCase().trim();
                         return this.daftarStok.filter(item => {
                             const lokasi = item.lokasi ? String(item.lokasi).toLowerCase() : '';
+                            const upbjj = item.upbjj ? String(item.upbjj).toLowerCase() : '';
                             const kode = item.kode ? String(item.kode).toLowerCase() : '';
                             const judul = item.judul ? String(item.judul).toLowerCase() : '';
                             const kategori = item.kategori ? String(item.kategori).toLowerCase() : '';
                             
-                            return lokasi.includes(keyword) || kode.includes(keyword) || judul.includes(keyword) || kategori.includes(keyword);
+                            return lokasi.includes(keyword) || upbjj.includes(keyword) || kode.includes(keyword) || judul.includes(keyword) || kategori.includes(keyword);
                         });
+                    }
+                },
+                methods: {
+                    tambahDataBahanAjar() {
+                        // Memasukkan input baru ke dalam array daftarStok
+                        this.daftarStok.push({
+                            lokasi: this.formBaru.lokasi,
+                            upbjj: this.formBaru.upbjj,
+                            kode: this.formBaru.kode,
+                            judul: this.formBaru.judul,
+                            kategori: this.formBaru.kategori,
+                            harga: Number(this.formBaru.harga),
+                            qty: Number(this.formBaru.qty),
+                            gambar: this.formBaru.gambar
+                        });
+                        
+                        // Reset form setelah berhasil disimpan
+                        this.formBaru = { lokasi: '', upbjj: '', kode: '', judul: '', kategori: '', harga: '', qty: '', gambar: '' };
+                        alert("Data bahan ajar berhasil ditambahkan!");
                     }
                 }
             });
